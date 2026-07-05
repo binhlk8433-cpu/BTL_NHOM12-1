@@ -1,0 +1,67 @@
+
+CREATE TABLE DEPARTMENT
+(
+    Department_ID VARCHAR(20) PRIMARY KEY,
+    Department_Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(255)
+);
+CREATE TABLE MAJOR
+(
+    Major_ID VARCHAR(20) PRIMARY KEY,
+    Major_Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(255)
+);
+
+CREATE TABLE STUDENT
+(
+    Student_ID VARCHAR(20) PRIMARY KEY,
+    Full_Name NVARCHAR(100) NOT NULL,
+    Email VARCHAR(100),
+    Phone VARCHAR(15),
+    Address NVARCHAR(255),
+    Gender NVARCHAR(10),
+    DOB DATE,
+    Status NVARCHAR(50),
+    Enrollment_Year INT,
+    Major_ID VARCHAR(20),
+    FOREIGN KEY (Major_ID) REFERENCES MAJOR(Major_ID)
+);
+CREATE TABLE LECTURER
+(
+    Lecturer_ID VARCHAR(20) PRIMARY KEY,
+    Full_Name NVARCHAR(100) NOT NULL,
+    Major NVARCHAR(100),
+    Email VARCHAR(100),
+    Phone VARCHAR(15),
+    Department_ID VARCHAR(20),
+    FOREIGN KEY (Department_ID) REFERENCES DEPARTMENT(Department_ID)
+);
+
+CREATE TABLE COURSE
+(
+    Course_ID VARCHAR(20) PRIMARY KEY,
+    Course_Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(255),
+    Credits INT NOT NULL
+);
+
+CREATE TABLE SECTION
+(
+    Section_ID VARCHAR(20) PRIMARY KEY,
+    Time NVARCHAR(50),
+    Location NVARCHAR(100),
+    Course_ID VARCHAR(20),
+    Lecturer_ID VARCHAR(20),
+    FOREIGN KEY (Course_ID) REFERENCES COURSE(Course_ID),
+    FOREIGN KEY (Lecturer_ID) REFERENCES LECTURER(Lecturer_ID)
+);
+CREATE TABLE ENROLLMENT
+(
+    Student_ID VARCHAR(20),
+    Section_ID VARCHAR(20),
+    Score FLOAT,
+    Result NVARCHAR(50),
+    PRIMARY KEY (Student_ID, Section_ID),
+    FOREIGN KEY (Student_ID) REFERENCES STUDENT(Student_ID),
+    FOREIGN KEY (Section_ID) REFERENCES SECTION(Section_ID)
+);
